@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class Map {
 	protected static final int DIMENSION = 20;
-	protected static final int NUM_PIRATES = 7;
+	protected static final int NUM_PIRATES = 5;
 	protected static final int NUM_ISLANDS = 40;
 	protected final int NUM_RUM_BOTTLES = 10;
 	private int[][] map = new int[DIMENSION][DIMENSION];
