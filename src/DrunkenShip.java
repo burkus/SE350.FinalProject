@@ -15,6 +15,13 @@ public class DrunkenShip extends Ship {
     }
 
     public void move(int x, int y) {
+        Random a = new Random();
+        // gives 20% chance to move ship at random. if a == 0, then sends ship to go method, creating random move
+        if(a.nextInt(5) == 0){
+            go();
+            return;
+        }
+
         position = new Point(x, y);
         setChanged();
         notifyObservers();
@@ -44,21 +51,6 @@ public class DrunkenShip extends Ship {
 
     @Override
     public void goEast() {
-
-        // gives 20% chance to move ship at random.
-        Random a = new Random();
-
-        // if a != 0, then ship moves normally
-        if(a.nextInt(5) != 0){
-            isRandom = true;
-        }
-
-        // sends ship to go method, creating random move.
-        if(isRandom == false){
-            go();
-            return;
-        }
-
         final int[][] grid  = map.getMap();
         final int bounds = grid[0].length;
 
@@ -84,21 +76,6 @@ public class DrunkenShip extends Ship {
     }
 
     public void goWest() {
-
-        // gives 20% chance to move ship at random.
-        Random a = new Random();
-
-        // if a != 0, then ship moves normally
-        if(a.nextInt(5) != 0){
-            isRandom = true;
-        }
-
-        // sends ship to go method, creating random move
-        if(isRandom == false){
-            go();
-            return;
-        }
-
         final int[][] grid = map.getMap();
 
         if(position.x - 1 >= 0){
@@ -124,21 +101,6 @@ public class DrunkenShip extends Ship {
     }
 
     public void goNorth() {
-
-        // gives 20% chance to move ship at random.
-        Random a = new Random();
-
-        // if a != 0, then ship moves normally
-        if(a.nextInt(5) != 0){
-            isRandom = true;
-        }
-
-        // sends ship to go method, creating random move
-        if(isRandom == false){
-            go();
-            return;
-        }
-
         final int[][] grid = map.getMap();
 
         if(position.y - 1 >= 0) {
@@ -164,21 +126,6 @@ public class DrunkenShip extends Ship {
     }
 
     public void goSouth() {
-
-        // gives 20% chance to move ship at random.
-        Random a = new Random();
-
-        // if a != 0, then ship moves normally
-        if(a.nextInt(5) != 0){
-            isRandom = true;
-        }
-
-        // sends ship to go method, creating random move
-        if(isRandom == false){
-            go();
-            return;
-        }
-
         final int[][] grid = map.getMap();
         final int bounds = grid.length;
 
