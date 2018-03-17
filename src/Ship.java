@@ -1,16 +1,27 @@
 
+import javafx.scene.control.Cell;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 import java.awt.Point;
 import java.util.Observable;
 import java.util.Random;
 
-public class Ship extends Observable implements ShipInterface{
+public class Ship extends Observable {
 	protected static Point position;
 	protected static Map map;
+	private ImageView imageView;
+	private int scalingFactor = 35;
 	public boolean hasTreasure = false;
 	public boolean hitPirate = false;
 	public boolean hitMonster = false;
+	public boolean hitRum = false;
 
-	public Ship(){}
+	public Ship() {
+		Image image = new Image(getClass().getResource("ship.png").toExternalForm(),
+				scalingFactor, scalingFactor, true, true);
+		imageView = new ImageView(image);
+	}
 
 	public Ship(Map map) {
 		Random random = new Random();
@@ -23,17 +34,34 @@ public class Ship extends Observable implements ShipInterface{
 			}
 		}
 		this.map = map;
+
+		Image image = new Image(getClass().getResource("ship.png").toExternalForm(),
+				scalingFactor, scalingFactor, true, true);
+		imageView = new ImageView(image);
+		updateImageView();
+	}
+
+	public void updateImageView() {
+		imageView.setX(position.getX() * scalingFactor);
+		imageView.setY(position.getY() * scalingFactor);
+	}
+
+	public ImageView getImageView() {
+		return imageView;
 	}
 
 	public static Point getLocation() {
 		return position;
 	}
 
-	@Override
 	public void move(int x, int y) {
 		position = new Point(x, y);
+		if(map.getMap()[y][x] == CellTypes.rum) {
+			hitRum = true;
+		}
 		setChanged();
 		notifyObservers();
+		updateImageView();
 	}
 
 	public void goEast() {
@@ -59,7 +87,6 @@ public class Ship extends Observable implements ShipInterface{
 			else if(cell == CellTypes.monster){
 				hitMonster = true;
 			}
-
 		}
 	}
 

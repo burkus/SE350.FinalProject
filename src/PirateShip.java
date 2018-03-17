@@ -48,6 +48,10 @@ public class PirateShip implements Observer {
       return position;
     }
 
+    public void setColumbus(Ship ship) {
+        columbus = ship;
+    }
+
     public void setImageView(ImageView iv) {
         pirateImageView = iv;
         updateImageView();

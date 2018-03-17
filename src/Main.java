@@ -35,6 +35,7 @@ public class Main extends Application {
 	private AnchorPane root;
 	Monster monster;
 	Thread monstersThread;
+	private Scene scene;
 
     private void startSailing(Scene scene) {
 		scene.setOnKeyPressed((e) -> {
@@ -55,10 +56,9 @@ public class Main extends Application {
 					default:
 						break;
 				}
-				shipImageView.setX(ship.getLocation().x * scalingFactor);
-				shipImageView.setY(ship.getLocation().y * scalingFactor);
 				checkTreasure();
 				checkPirate();
+				checkRum();
 				monster.getShipPoint(ship.getLocation());
 				if (monster.gameOver) checkMonster();
 
@@ -79,6 +79,13 @@ public class Main extends Application {
 			System.out.println("You found the treasure! You win!");
 		}
 
+	}
+
+	private void checkRum() {
+    	if(ship.hitRum) {
+    		createNewShip();
+    		System.out.println("Created new ship");
+		}
 	}
 	
 	private void addWinImage(AnchorPane root) {
@@ -118,7 +125,21 @@ public class Main extends Application {
 
 	}
 
+	private void addShipImageView(ImageView iv) {
+    	root.getChildren().add(iv);
+	}
 
+	private void createNewShip() {
+		ship.getImageView().setImage(null);
+		ship.deleteObservers();
+		ship = new DrunkenShip(ship);
+		for(PirateShip pirate : pirates) {
+			pirate.setColumbus(ship);
+		}
+		root.getChildren().add(ship.getImageView());
+		setObservers();
+		startSailing(scene);
+	}
 
 	private void setObservers() {
 		for(PirateShip pirate : pirates) {
@@ -127,12 +148,8 @@ public class Main extends Application {
 	}
 
 	private void loadShipImage(AnchorPane root) {
-		Image shipImage = new Image(getClass().getResource("ship.png").toExternalForm(),
-				scalingFactor, scalingFactor, true, true);
-		shipImageView = new ImageView(shipImage);
-		shipImageView.setX(ship.getLocation().x * scalingFactor);
-		shipImageView.setY(ship.getLocation().y * scalingFactor);
-		root.getChildren().add(shipImageView);
+		//root.getChildren().add(shipImageView);
+		root.getChildren().add(ship.getImageView());
 	}
 
     private void addIslandImage(AnchorPane root, int x, int y) {
@@ -199,7 +216,7 @@ public class Main extends Application {
                         // create ocean tile anyways
                         // the tile will be "underneath" the pirate since it is added to the tree later
                         rect.setFill(Color.PALETURQUOISE);
-                        root.getChildren().add(rect);
+						root.getChildren().add(rect);
                         break;
                     case CellTypes.treasure:
                         addTreasureImage(root,x,y);
@@ -227,7 +244,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			root = new AnchorPane();
-			Scene scene = new Scene(root, dimension*scalingFactor, dimension*scalingFactor);
+			scene = new Scene(root, dimension*scalingFactor, dimension*scalingFactor);
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Ocean");
 			drawMap(map.getMap(), root); // everything else is rendered before pirate
@@ -237,7 +254,7 @@ public class Main extends Application {
 
 			monster = new Monster(scalingFactor);
 			monster.addToPane(root.getChildren());
-			primaryStage.show();
+//			primaryStage.show();
 
 			monstersThread = new Thread(monster);
 			monstersThread.start();
