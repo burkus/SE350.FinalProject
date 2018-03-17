@@ -4,9 +4,6 @@ import java.util.Random;
 public class DrunkenShip extends Ship {
     public DrunkenShip() {}
 
-    boolean isRandom = false;
-
-
     public DrunkenShip(Ship ship) {
         super();
         map = ship.map;
@@ -15,13 +12,12 @@ public class DrunkenShip extends Ship {
     }
 
     public void move(int x, int y) {
-        Random a = new Random();
         // gives 20% chance to move ship at random. if a == 0, then sends ship to go method, creating random move
+        Random a = new Random();
         if(a.nextInt(5) == 0){
             go();
             return;
         }
-
         position = new Point(x, y);
         setChanged();
         notifyObservers();
@@ -31,18 +27,14 @@ public class DrunkenShip extends Ship {
     public void go(){
         Random rand = new Random();
         int randInt = rand.nextInt(4);
-        isRandom = true;
         System.out.println("Hiccup! the rum causde you to turn tqhe kship the zwrong way.");
         if(randInt == 0){
             goEast();
-        }
-        else if (randInt == 1){
+        } else if (randInt == 1){
             goWest();
-        }
-        else if (randInt == 2){
+        } else if (randInt == 2){
             goNorth();
-        }
-        else if (randInt == 3){
+        } else if (randInt == 3){
             goSouth();
         }
 
@@ -57,22 +49,16 @@ public class DrunkenShip extends Ship {
         if(position.x + 1 < bounds) {
             if(grid[position.y][position.x + 1] == CellTypes.ocean) {
                 move(position.x + 1, position.y);
-            }
-            else if(grid[position.y][position.x + 1] == CellTypes.treasure) {
+            } else if(grid[position.y][position.x + 1] == CellTypes.treasure) {
                 move(position.x + 1, position.y);
                 hasTreasure = true;
-            }
-
-            else if(grid[position.y][position.x + 1] == CellTypes.pirate){
+            } else if(grid[position.y][position.x + 1] == CellTypes.pirate){
                 hitPirate = true;
-            }
-
-            else if(grid[position.y][position.x + 1] == CellTypes.monster){
+            } else if(grid[position.y][position.x + 1] == CellTypes.monster){
                 hitMonster = true;
             }
 
         }
-        isRandom = false;
     }
 
     public void goWest() {
@@ -81,23 +67,16 @@ public class DrunkenShip extends Ship {
         if(position.x - 1 >= 0){
             if(grid[position.y][position.x - 1] == CellTypes.ocean) {
                 move(position.x - 1, position.y);
-            }
-            else if(grid[position.y][position.x - 1] == CellTypes.treasure) {
-
+            } else if(grid[position.y][position.x - 1] == CellTypes.treasure) {
                 move(position.x - 1, position.y);
                 hasTreasure = true;
-            }
-            else if(grid[position.y][position.x - 1] == CellTypes.pirate) {
+            } else if(grid[position.y][position.x - 1] == CellTypes.pirate) {
                 hitPirate = true;
-            }
-
-            else if(grid[position.y][position.x - 1] == CellTypes.monster){
+            } else if(grid[position.y][position.x - 1] == CellTypes.monster){
                 hitMonster = true;
             }
 
         }
-        isRandom = false;
-
     }
 
     public void goNorth() {
@@ -106,23 +85,16 @@ public class DrunkenShip extends Ship {
         if(position.y - 1 >= 0) {
             if(grid[position.y - 1][position.x] == CellTypes.ocean) {
                 move(position.x, position.y - 1);
-            }
-            else if(grid[position.y - 1][position.x] == CellTypes.treasure) {
+            } else if(grid[position.y - 1][position.x] == CellTypes.treasure) {
                 move(position.x, position.y - 1);
                 hasTreasure = true;
-            }
-
-            else if(grid[position.y - 1][position.x] == CellTypes.pirate) {
+            } else if(grid[position.y - 1][position.x] == CellTypes.pirate) {
                 hitPirate = true;
-            }
-
-            else if(grid[position.y - 1][position.x] == CellTypes.monster){
+            } else if(grid[position.y - 1][position.x] == CellTypes.monster){
                 hitMonster = true;
             }
 
         }
-        isRandom = false;
-
     }
 
     public void goSouth() {
@@ -142,8 +114,6 @@ public class DrunkenShip extends Ship {
             }
 
         }
-        isRandom = false;
-
     }
 
 }
