@@ -32,6 +32,7 @@ public class Main extends Application {
 	private PirateShipFactoryGenerator factoryGenerator = new PirateShipFactoryGenerator();
 	private PirateShipFactory pirateFactory = new AveragePirateShipFactory();
 	protected static boolean stop = false;
+	private boolean isDrunk = false;
 	private AnchorPane root;
 	Monster monster;
 	Thread monstersThread;
@@ -61,11 +62,6 @@ public class Main extends Application {
 				checkRum();
 				monster.getShipPoint(ship.getLocation());
 				if (monster.gameOver) checkMonster();
-
-				if (map.getMap()[ship.getLocation().x][ship.getLocation().y] == CellTypes.rum){
-					// make ship drunken
-				}
-
 			}
 
 		});
@@ -82,9 +78,10 @@ public class Main extends Application {
 	}
 
 	private void checkRum() {
-    	if(ship.hitRum) {
+    	if(ship.hitRum && isDrunk == false) {
     		createNewShip();
-    		System.out.println("Created new ship");
+    		System.out.println("You drank a whole bottle of rum!");
+			isDrunk = true;
 		}
 	}
 	
